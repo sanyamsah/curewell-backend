@@ -4,6 +4,7 @@ import com.sanyam.curewell.curewell_backend.entity.Specialization;
 import com.sanyam.curewell.curewell_backend.service.SpecializationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class SpecializationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Specialization> addSpecialization(
             @RequestBody Specialization specialization
     ) {
@@ -30,6 +32,7 @@ public class SpecializationController {
     }
 
     @DeleteMapping("/{specializationCode}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteSpecialization(
             @PathVariable("specializationCode") String specializationCode
     ) {

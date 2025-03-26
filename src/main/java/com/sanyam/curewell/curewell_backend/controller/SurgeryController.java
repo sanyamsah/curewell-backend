@@ -4,6 +4,7 @@ import com.sanyam.curewell.curewell_backend.entity.Surgery;
 import com.sanyam.curewell.curewell_backend.service.SurgeryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,16 +31,19 @@ public class SurgeryController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Surgery addSurgery(@RequestBody Surgery surgery) {
         return surgeryService.addSurgery(surgery);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Surgery updateSurgery(@PathVariable Long id, @RequestBody Surgery surgery) {
         return surgeryService.updateSurgery(id, surgery);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteSurgery(@PathVariable Long id) {
         surgeryService.deleteSurgery(id);
         return ResponseEntity.noContent().build();

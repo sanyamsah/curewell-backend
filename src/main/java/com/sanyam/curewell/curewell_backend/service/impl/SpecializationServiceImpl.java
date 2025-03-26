@@ -1,6 +1,7 @@
 package com.sanyam.curewell.curewell_backend.service.impl;
 
 import com.sanyam.curewell.curewell_backend.entity.Specialization;
+import com.sanyam.curewell.curewell_backend.exception.SpecializationNotFoundException;
 import com.sanyam.curewell.curewell_backend.repository.SpecializationRepository;
 import com.sanyam.curewell.curewell_backend.service.SpecializationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,11 @@ public class SpecializationServiceImpl implements SpecializationService {
     @Override
     public void deleteSpecialization(String specializationCode) {
         if (!specializationRepository.existsById(specializationCode)) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Specialization not found with code: " + specializationCode
+            throw new SpecializationNotFoundException(
+                    "Specialization not found with code: " + specializationCode
             );
         }
         specializationRepository.deleteById(specializationCode);
     }
+
 }
