@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public interface SurgeryService {
     List<Surgery> getAllSurgeries();
-    Optional<Surgery> getSurgeryById(Long surgeryId);
+    List<Surgery> getSurgeriesByDoctorId(Long doctorId);
+    Surgery getSurgeryById(Long surgeryId);
     Surgery addSurgery(Surgery surgery);
     Surgery updateSurgery(Long surgeryId, Surgery surgery);
     void deleteSurgery(Long surgeryId);

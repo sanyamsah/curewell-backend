@@ -1,13 +1,13 @@
 package com.sanyam.curewell.curewell_backend.service.impl;
 
 import com.sanyam.curewell.curewell_backend.entity.Surgery;
+import com.sanyam.curewell.curewell_backend.exception.DoctorNotFoundException;
 import com.sanyam.curewell.curewell_backend.exception.SurgeryNotFoundException;
+import com.sanyam.curewell.curewell_backend.repository.DoctorRepository;
 import com.sanyam.curewell.curewell_backend.repository.SurgeryRepository;
 import com.sanyam.curewell.curewell_backend.service.SurgeryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +16,8 @@ import java.util.Optional;
 public class SurgeryServiceImpl implements SurgeryService {
     @Autowired
     private SurgeryRepository surgeryRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @Override
     public List<Surgery> getAllSurgeries() {
@@ -23,8 +25,21 @@ public class SurgeryServiceImpl implements SurgeryService {
     }
 
     @Override
-    public Optional<Surgery> getSurgeryById(Long surgeryId) {
-        return surgeryRepository.findById(surgeryId);
+    public List<Surgery> getSurgeriesByDoctorId(Long doctorId) {
+        if(!doctorRepository.existsById(doctorId)){
+            throw new DoctorNotFoundException(
+                    "Doctor not found with ID: " + doctorId
+            );
+        }
+        return surgeryRepository.findByDoctorId(doctorId);
+    }
+
+    @Override
+    public Surgery getSurgeryById(Long surgeryId){
+        return surgeryRepository.findById(surgeryId)
+                .orElseThrow(() -> new SurgeryNotFoundException(
+                        "Surgery not found with ID: " + surgeryId
+                ));
     }
 
     @Override
