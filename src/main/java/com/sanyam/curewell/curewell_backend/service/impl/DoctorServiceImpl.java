@@ -2,7 +2,9 @@ package com.sanyam.curewell.curewell_backend.service.impl;
 
 import com.sanyam.curewell.curewell_backend.entity.Doctor;
 import com.sanyam.curewell.curewell_backend.exception.DoctorNotFoundException;
+import com.sanyam.curewell.curewell_backend.exception.SpecializationNotFoundException;
 import com.sanyam.curewell.curewell_backend.repository.DoctorRepository;
+import com.sanyam.curewell.curewell_backend.repository.SpecializationRepository;
 import com.sanyam.curewell.curewell_backend.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,22 @@ import java.util.List;
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private SpecializationRepository specializationRepository;
 
     @Override
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
+    }
+
+    @Override
+    public List<Doctor> getDoctorsBySpecialization(String specializationCode) {
+        if(!specializationRepository.existsById(specializationCode)){
+            throw new SpecializationNotFoundException(
+                    "Specialization not found with code: " + specializationCode
+            );
+        }
+        return doctorRepository.findBySpecializations_SpecializationCode(specializationCode);
     }
 
     @Override

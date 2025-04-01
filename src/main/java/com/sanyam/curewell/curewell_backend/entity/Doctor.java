@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -42,7 +43,7 @@ public class Doctor {
                     referencedColumnName = "specializationCode"
             )
     )
-    private List<Specialization> specializations;
+    private Set<Specialization> specializations;
 
     public Long getDoctorId() {
         return doctorId;
@@ -68,11 +69,11 @@ public class Doctor {
         this.image = image;
     }
 
-    public List<Specialization> getSpecializations() {
+    public Set<Specialization> getSpecializations() {
         return specializations;
     }
 
-    public void setSpecializations(List<Specialization> specializations) {
+    public void setSpecializations(Set<Specialization> specializations) {
         this.specializations = specializations;
     }
 }

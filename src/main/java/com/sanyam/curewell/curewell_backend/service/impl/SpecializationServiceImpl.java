@@ -1,5 +1,6 @@
 package com.sanyam.curewell.curewell_backend.service.impl;
 
+import com.sanyam.curewell.curewell_backend.entity.Doctor;
 import com.sanyam.curewell.curewell_backend.entity.Specialization;
 import com.sanyam.curewell.curewell_backend.exception.SpecializationNotFoundException;
 import com.sanyam.curewell.curewell_backend.repository.SpecializationRepository;

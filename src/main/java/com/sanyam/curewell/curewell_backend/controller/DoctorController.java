@@ -11,25 +11,31 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/doctors")
+@RequestMapping("/api")
 public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-    @GetMapping
+    @GetMapping("/doctors")
     public ResponseEntity<List<Doctor>> getAllDoctors(){
         var data = doctorService.getAllDoctors();
         return ResponseEntity.ok(data);
     }
 
-    @PostMapping
+    @GetMapping("/specialization/{code}/doctors")
+    public ResponseEntity<List<Doctor>> getDoctorsBySpecialization(@PathVariable String code){
+        var data = doctorService.getDoctorsBySpecialization(code);
+        return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("/doctors")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor){
         var data = doctorService.addDoctor(doctor);
         return ResponseEntity.ok(data);
     }
 
-    @PutMapping("/{doctorId}")
+    @PutMapping("/doctors/{doctorId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Doctor> updateDoctor(@PathVariable("doctorId") Long doctorId,
                                                @RequestBody Doctor doctor){
@@ -37,7 +43,7 @@ public class DoctorController {
         return ResponseEntity.ok(data);
     }
 
-    @DeleteMapping("/{doctorId}")
+    @DeleteMapping("/doctors/{doctorId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteDoctor(@PathVariable("doctorId") Long doctorId){
         doctorService.deleteDoctor(doctorId);
